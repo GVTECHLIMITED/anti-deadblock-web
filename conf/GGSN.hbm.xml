@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.eastcom.tools.antideadblock.ggsn">
+    <class name="GGSN" table="gprs_ggsn_device">
+        <id name="id" column="id">
+            <generator class="assigned"/>
+        </id>
+        <property name="name"></property>
+        <property name="host"></property>
+        <property name="username"></property>
+        <property name="password"></property>
+        <property name="port"></property>
+        <property name="protocol"></property>
+        <property name="type"></property>
+    </class>
+</hibernate-mapping>

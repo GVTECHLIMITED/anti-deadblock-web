@@ -1,0 +1,30 @@
+[
+	{
+		type: "爱立信",
+		usernamePrompt: "Username: ?",
+		passwordPrompt: "Password: ?",
+		commandPrompt: "^\\w+@\\w+[\\>#] ?$",
+		detectCommandTemplate: "show services epg pgw statistics msisdn %s",
+		enterCleanModeCommands: [],
+		cleanCommandTemplate: "request services epg pgw pdp terminate context msisdn %s",
+		notExistTag: "no such msisdn"
+	}, {
+		type: "华为",
+		usernamePrompt: "Username: ?",
+		passwordPrompt: "Password: ?",
+		commandPrompt: "^(\\<\\w+\\>|\\[[\\w\\-]+\\])$",
+		detectCommandTemplate: "display pdpcontext msisdn %s",
+		enterCleanModeCommands: ["system-view", "access-view"],
+		cleanCommandTemplate: "deactive pdpcontext msisdn %s",
+		notExistTag: "Info:"
+	}, {
+		type: "东信",
+		usernamePrompt: "Username: ",
+		passwordPrompt: "Password: ",
+		commandPrompt: "\\[\\w+@\\w+ .+]# ",
+		detectCommandTemplate: "display pdpcontext msisdn %s",
+		enterCleanModeCommands: ["system-view", "access-view"],
+		cleanCommandTemplate: "deactive pdpcontext msisdn %s",
+		notExistTag: "Info:"
+	}
+]

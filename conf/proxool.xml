@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- the proxool configuration can be embedded within your own application's.
+Anything outside the "proxool" tag is ignored. -->
+<something-else-entirely>
+    <proxool>
+        <alias>DBPool</alias>
+        <driver-url>
+            jdbc:oracle:thin:@10.39.248.82:1521:ipnetv6
+        </driver-url>
+        <driver-class>
+            oracle.jdbc.OracleDriver
+        </driver-class>
+        <driver-properties>
+            <property name="user" value="rm" />
+            <property name="password" value="Dx_rm1234" />
+            <property name="useUnicode" value="true" />
+            <property name="characterEncoding" value="GBK" />
+        </driver-properties>
+        <house-keeping-sleep-time>90000</house-keeping-sleep-time>
+        <maximum-new-connections>20</maximum-new-connections>
+        <prototype-count>1</prototype-count>
+        <maximum-connection-count>200</maximum-connection-count>
+        <minimum-connection-count>1</minimum-connection-count>
+        <jmx>true</jmx>
+        <house-keeping-test-sql>
+            select to_char(sysdate, 'MM-DD-YYYY HH24:MI:SS') "now" from dual
+        </house-keeping-test-sql>
+    </proxool>
+</something-else-entirely>

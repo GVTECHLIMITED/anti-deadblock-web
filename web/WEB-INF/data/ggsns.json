@@ -1,0 +1,222 @@
+[
+	{
+		name: "WUXGGSN01Ber",
+		type: "爱立信",
+		host: "10.136.34.33",
+		protocol: "ssh",
+		port: 22,
+		username: "admin",
+		password: "Je66smg",
+		logdir: "../logs"
+	}, 
+	{
+		name: "WUXGGSN02Ber",
+		type: "爱立信",
+		host: "10.136.34.34",
+		protocol: "ssh",
+		port: 22,
+		username: "admin",
+		password: "Je66smg",
+		logdir: "../logs"
+	}, 
+	{
+		name: "WUXGGSN03Ber",
+		type: "爱立信",
+		host: "10.136.34.35",
+		protocol: "ssh",
+		port: 22,
+		username: "admin",
+		password: "Je66smg",
+		logdir: "../logs"
+	}, 
+	{
+		name: "WUXGGSN04Ber",
+		type: "爱立信",
+		host: "10.136.34.36",
+		protocol: "ssh",
+		port: 22,
+		username: "admin",
+		password: "Je66smg",
+		logdir: "../logs"
+	}, 
+	{
+		name: "WUXGGSN05Ber",
+		type: "爱立信",
+		host: "10.136.34.37",
+		protocol: "ssh",
+		port: 22,
+		username: "admin",
+		password: "Je66smg",
+		logdir: "../logs"
+	}, 
+	{
+		name: "WUXGGSN06Ber",
+		type: "爱立信",
+		host: "10.136.34.38",
+		protocol: "ssh",
+		port: 22,
+		username: "admin",
+		password: "Je66smg",
+		logdir: "../logs"
+	}, 
+	{
+		name: "WUXGGSN07Ber",
+		type: "爱立信",
+		host: "10.40.60.9",
+		protocol: "ssh",
+		port: 22,
+		username: "admin",
+		password: "Je66smg",
+		logdir: "../logs"
+	}, 
+	{
+		name: "WUXGGSN08Ber",
+		type: "爱立信",
+		host: "10.40.60.10",
+		protocol: "ssh",
+		port: 22,
+		username: "admin",
+		password: "Je66smg",
+		logdir: "../logs"
+	}, 
+	{
+		name: "WUXGGSN09Ber",
+		type: "爱立信",
+		host: "10.40.60.11",
+		protocol: "ssh",
+		port: 22,
+		username: "admin",
+		password: "Je66smg",
+		logdir: "../logs"
+	}, 
+	{
+		name: "WUXGGSN10Ber",
+		type: "爱立信",
+		host: "10.40.60.43",
+		protocol: "ssh",
+		port: 22,
+		username: "admin",
+		password: "Je66smg",
+		logdir: "../logs"
+	}, 
+	{
+		name: "WUXGGSN11Ber",
+		type: "爱立信",
+		host: "10.40.60.44",
+		protocol: "ssh",
+		port: 22,
+		username: "admin",
+		password: "Je66smg",
+		logdir: "../logs"
+	}, 
+	{
+		name: "WUXGGSN12Ber",
+		type: "爱立信",
+		host: "10.40.60.45",
+		protocol: "ssh",
+		port: 22,
+		username: "admin",
+		password: "Je66smg",
+		logdir: "../logs"
+	}, 
+	{
+		name: "WUXGGSN13Ber",
+		type: "爱立信",
+		host: "10.40.60.46",
+		protocol: "ssh",
+		port: 22,
+		username: "admin",
+		password: "Je66smg",
+		logdir: "../logs"
+	}, 
+	{
+		name: "WUXGGSN14Ber",
+		type: "爱立信",
+		host: "10.40.60.73",
+		protocol: "ssh",
+		port: 22,
+		username: "admin",
+		password: "Je66smg",
+		logdir: "../logs"
+	}, 
+	{
+		name: "WUXGGSN15Ber",
+		type: "爱立信",
+		host: "10.40.60.74",
+		protocol: "ssh",
+		port: 22,
+		username: "admin",
+		password: "Je66smg",
+		logdir: "../logs"
+	}, 
+	{
+		name: "WUXGGSN16Ber",
+		type: "爱立信",
+		host: "10.40.60.75",
+		protocol: "ssh",
+		port: 22,
+		username: "admin",
+		password: "Je66smg",
+		logdir: "../logs"
+	}, 
+	{
+		name: "WUXGGSN01BHW",
+		type: "华为",
+		protocol: "telnet",
+		host: "10.40.34.21",
+		port: 23,
+		username: "weihu",
+		password: "Xunj15!#",
+		logdir: "../logs"
+	},
+	{
+		name: "WUXGGSN02BHW",
+		type: "华为",
+		protocol: "telnet",
+		host: "10.40.34.22",
+		port: 23,
+		username: "weihu",
+		password: "Xunj15!#",
+		logdir: "../logs"
+	},
+	{
+		name: "WUXGGSN03BHW",
+		type: "华为",
+		protocol: "telnet",
+		host: "10.40.34.23",
+		port: 23,
+		username: "weihu",
+		password: "Xunj15!#",
+		logdir: "../logs"
+	},
+	{
+		name: "WUXGGSN04BHW",
+		type: "华为",
+		protocol: "telnet",
+		host: "10.40.34.24",
+		port: 23,
+		username: "weihu",
+		password: "Xunj15!#",
+		logdir: "../logs"
+	},
+	{
+		name: "WUXGGSN05BHW",
+		type: "华为",
+		protocol: "telnet",
+		host: "10.40.34.50",
+		port: 23,
+		username: "weihu",
+		password: "Xunj15!#",
+		logdir: "../logs"
+	},
+	{
+		name: "WUXGGSN06BHW",
+		type: "华为",
+		protocol: "telnet",
+		host: "10.40.34.51",
+		port: 23,
+		username: "weihu",
+		password: "Xunj15!#",
+		logdir: "../logs"
+	}
+]

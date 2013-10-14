@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.eastcom.tools.antideadblock.dao.data">
+    <class name="GGSNGroup" table="gprs_ggsn_groups">
+        <id name="id">
+            <generator class="assigned"></generator>
+        </id>
+        <property name="name"></property>
+    </class>
+</hibernate-mapping>

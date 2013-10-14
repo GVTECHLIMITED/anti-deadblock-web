@@ -51,4 +51,29 @@ public class JsonGGSNProvider implements GGSNProvider {
         return map.get(name);
     }
 
+	@Override
+	public GGSN findByGtpCAddress(String address) {
+		return null;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public GGSN findById(String id) {
+		return null;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void add(GGSN ggsn) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void delete(GGSN ggsn) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void update(GGSN ggsn) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
 }

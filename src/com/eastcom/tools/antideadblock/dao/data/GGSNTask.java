@@ -13,6 +13,7 @@ public class GGSNTask {
 	private String id;
 	private String ggsns;
 	private Date startTime;
+	private String isValid;
 	/**
 	 * 立即执行
 	 * 定时执行
@@ -59,5 +60,13 @@ public class GGSNTask {
 
 	public void setInterval(int interval) {
 		this.interval = interval;
+	}
+
+	public String getIsValid() {
+		return isValid;
+	}
+
+	public void setIsValid(String valid) {
+		isValid = valid;
 	}
 }

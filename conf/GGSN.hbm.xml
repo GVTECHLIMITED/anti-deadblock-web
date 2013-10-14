@@ -7,6 +7,7 @@
         <id name="id" column="id">
             <generator class="assigned"/>
         </id>
+
         <property name="name"></property>
         <property name="host"></property>
         <property name="username"></property>
@@ -14,5 +15,11 @@
         <property name="port"></property>
         <property name="protocol"></property>
         <property name="type"></property>
+        <property name="pool" column="ggsngroup"></property>
+        <property name="omAddress"></property>
+        <property name="gtpCAddress"></property>
+        <property name="cmNetPool"></property>
+        <property name="cmWapPool"></property>
+        <property name="updateTime"></property>
     </class>
 </hibernate-mapping>

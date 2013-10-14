@@ -18,7 +18,7 @@ import javax.xml.ws.Endpoint;
  */
 //@Component("publishWebService")
 public class PublishWebService {
-	@Autowired
+	//@Autowired
 	FullDeactivate fullDeactivate;
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	private int port;

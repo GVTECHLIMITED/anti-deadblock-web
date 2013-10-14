@@ -1,6 +1,7 @@
 package com.eastcom.tools.antideadblock.full;
 
 import com.eastcom.tools.antideadblock.dao.ExecuteLogDao;
+import com.eastcom.tools.antideadblock.dao.GGSNDao;
 import com.eastcom.tools.antideadblock.dao.GGSNTaskDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,8 +14,18 @@ import org.springframework.stereotype.Component;
  * To change this template use File | Settings | File Templates.
  */
 public class DaoManager {
-	private static GGSNTaskDao ggsnTaskDao;
-	private static ExecuteLogDao executeLogDao;
+	public static GGSNTaskDao ggsnTaskDao;
+	public static ExecuteLogDao executeLogDao;
+	public static GGSNDao ggsnDao;
+
+	public GGSNDao getGgsnDao() {
+		return ggsnDao;
+	}
+
+	public void setGgsnDao(GGSNDao ggsnDao) {
+		DaoManager.ggsnDao = ggsnDao;
+	}
+
 	public GGSNTaskDao getGgsnTaskDao() {
 		return ggsnTaskDao;
 	}

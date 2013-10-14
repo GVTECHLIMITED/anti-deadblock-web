@@ -8,11 +8,16 @@ package com.eastcom.tools.antideadblock.ggsn;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.util.Date;
+
 /**
  * @author sqwen
  */
 public class GGSN {
 	private String id;
+
+	private String pool;
+
     private String name;
 
     private String type;
@@ -28,6 +33,12 @@ public class GGSN {
     private String password;
 
     private String logdir="../logs";
+
+	private String omAddress;
+	private String gtpCAddress;
+	private String cmWapPool;
+	private String cmNetPool;
+	private Date updateTime;
 
 	public String getId() {
 		return id;
@@ -67,7 +78,55 @@ public class GGSN {
         return true;
     }
 
-    @Override
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getOmAddress() {
+		return omAddress;
+	}
+
+	public void setOmAddress(String omAddress) {
+		this.omAddress = omAddress;
+	}
+
+	public String getGtpCAddress() {
+		return gtpCAddress;
+	}
+
+	public void setGtpCAddress(String gtpCAddress) {
+		this.gtpCAddress = gtpCAddress;
+	}
+
+	public String getCmWapPool() {
+		return cmWapPool;
+	}
+
+	public void setCmWapPool(String cmWapPool) {
+		this.cmWapPool = cmWapPool;
+	}
+
+	public String getCmNetPool() {
+		return cmNetPool;
+	}
+
+	public void setCmNetPool(String cmNetPool) {
+		this.cmNetPool = cmNetPool;
+	}
+
+	public String getPool() {
+		return pool;
+	}
+
+	public void setPool(String pool) {
+		this.pool = pool;
+	}
+
+	@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }

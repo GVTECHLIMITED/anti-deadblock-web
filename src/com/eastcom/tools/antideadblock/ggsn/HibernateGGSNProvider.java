@@ -51,4 +51,38 @@ public class HibernateGGSNProvider implements GGSNProvider {
 	public GGSN findByName(String name) {
 		return map.get(name);  //To change body of implemented methods use File | Settings | File Templates.
 	}
+
+	@Override
+	public GGSN findByGtpCAddress(String address) {
+		for(GGSN ggsn:map.values()){
+			if(ggsn.getGtpCAddress()!=null && ggsn.getGtpCAddress().equals(address)){
+				return ggsn;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public GGSN findById(String id) {
+		for(GGSN ggsn:map.values()){
+			if(ggsn.getId()!=null && ggsn.getId().equals(id)){
+				return ggsn;
+			}
+		}
+		return null;
+	}
+	public void add(GGSN ggsn){
+		ggsns.add(ggsn);
+		map.put(ggsn.getName(),ggsn);
+		logger.info("add ggsn complete.ggsn.size() = "+ggsns);
+	}
+	public void delete(GGSN ggsn){
+		ggsns.remove(findById(ggsn.getId()));
+		map.remove(ggsn.getName());
+		logger.info("delete ggsn complete..size() = "+ggsns.size());
+	}
+	public void update(GGSN ggsn){
+		delete(ggsn);
+		add(ggsn);
+	}
 }

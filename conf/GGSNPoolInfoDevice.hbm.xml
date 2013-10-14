@@ -3,14 +3,12 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.eastcom.tools.antideadblock.dao.data">
-    <class name="GGSNTask" table="gprs_ggsn_task">
-        <id name="id" column="id">
+    <class name="GGSNPoolInfoDevice" table="GPRS_GGSN_INFODEVICE">
+        <id name="name" column="name">
             <generator class="assigned"/>
         </id>
-        <property name="ggsns"></property>
-        <property name="startTime"></property>
-        <property name="interval"></property>
-        <property name="type"></property>
-        <property name="isValid"></property>
+        <property name="omAddress"></property>
+        <property name="userName"></property>
+        <property name="password"></property>
     </class>
 </hibernate-mapping>

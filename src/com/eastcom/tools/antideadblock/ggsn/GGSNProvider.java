@@ -16,4 +16,12 @@ public interface GGSNProvider {
 
     GGSN findByName(String name);
 
+	GGSN findByGtpCAddress(String address);
+
+	GGSN findById(String id);
+
+	void add(GGSN ggsn);
+	void delete(GGSN ggsn);
+	void update(GGSN ggsn);
+
 }

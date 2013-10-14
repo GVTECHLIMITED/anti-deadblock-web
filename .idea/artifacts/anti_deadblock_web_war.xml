@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="anti-deadblock-web:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/anti_deadblock_web_war</output-path>
+    <root id="archive" name="anti-deadblock-web_war.war">
+      <element id="artifact" artifact-name="anti-deadblock-web:war exploded" />
+    </root>
+  </artifact>
+</component>

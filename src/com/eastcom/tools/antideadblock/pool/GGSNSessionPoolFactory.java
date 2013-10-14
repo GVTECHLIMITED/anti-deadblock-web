@@ -35,29 +35,46 @@ public class GGSNSessionPoolFactory {
 
     private final Map<String, ObjectPool<Session>> fullDeactivateSessionPoolMap;
 
+	private ExecTemplateProvider execTemplateProvider;
     @Autowired
-    public GGSNSessionPoolFactory(GGSNProvider ggsnProvider, ExecTemplateProvider execTemplateProvider) {
+    public GGSNSessionPoolFactory(GGSNProvider ggsnProvider,ExecTemplateProvider execTemplateProvider) {
+	    this.execTemplateProvider = execTemplateProvider;
         List<GGSN> ggsns = ggsnProvider.findAll();
         detectSessionPoolMap = new HashMap<String, ObjectPool<Session>>(ggsns.size());
         cleanSessionPoolMap = new HashMap<String, ObjectPool<Session>>(ggsns.size());
         fullDeactivateSessionPoolMap = new HashMap<String, ObjectPool<Session>>(ggsns.size());
         for (GGSN ggsn : ggsns) {
-            ExecTemplate template = execTemplateProvider.getExecTemplate(ggsn.getType());
-            if (template == null) {
-                logger.error("Can't init SessionPool for {}: ExecTemplate of type {} does not exist.", ggsn.getName(), ggsn.getType());
-                continue;
-            }
-
-            SessionLogon detectSessionLogon = buildDetectSessionLogon(ggsn, template);
-            detectSessionPoolMap.put(ggsn.getName(), new StackObjectPool<Session>(new PoolableSessionFactory(detectSessionLogon)));
-
-            SessionLogon cleanSessionLogon = buildCleanSessionLogon(ggsn, template);
-            cleanSessionPoolMap.put(ggsn.getName(), new StackObjectPool<Session>(new PoolableSessionFactory(cleanSessionLogon)));
-
-            SessionLogon fullDeactivateSessionLogon = buildFullDeactivateSessionLogon(ggsn, template);
-            fullDeactivateSessionPoolMap.put(ggsn.getName(), new StackObjectPool<Session>(new PoolableSessionFactory(fullDeactivateSessionLogon)));
+	        addGgsn(ggsn);
         }
     }
+	public void addGgsn(GGSN ggsn){
+		ExecTemplate template = execTemplateProvider.getExecTemplate(ggsn.getType());
+		if (template == null) {
+			logger.error("Can't init SessionPool for {}: ExecTemplate of type {} does not exist.", ggsn.getName(), ggsn.getType());
+			return;
+		}
+
+		SessionLogon detectSessionLogon = buildDetectSessionLogon(ggsn, template);
+		detectSessionPoolMap.put(ggsn.getName(), new StackObjectPool<Session>(new PoolableSessionFactory(detectSessionLogon)));
+
+		SessionLogon cleanSessionLogon = buildCleanSessionLogon(ggsn, template);
+		cleanSessionPoolMap.put(ggsn.getName(), new StackObjectPool<Session>(new PoolableSessionFactory(cleanSessionLogon)));
+
+		SessionLogon fullDeactivateSessionLogon = buildFullDeactivateSessionLogon(ggsn, template);
+		fullDeactivateSessionPoolMap.put(ggsn.getName(), new StackObjectPool<Session>(new PoolableSessionFactory(fullDeactivateSessionLogon)));
+		logger.info("add ggsn session pool complete.");
+	}
+	public void deleteGgsn(GGSN ggsn){
+		detectSessionPoolMap.remove(ggsn.getName());
+		cleanSessionPoolMap.remove(ggsn.getName());
+		fullDeactivateSessionPoolMap.remove(ggsn.getName());
+		logger.info("delete ggsn session pool complete.");
+	}
+	public void updateGgsn(GGSN ggsn){
+		deleteGgsn(ggsn);
+		addGgsn(ggsn);
+		logger.info("update ggsn session pool complete.");
+	}
     private SessionLogon buildFullDeactivateSessionLogon(GGSN ggsn, ExecTemplate template) {
         SessionLogon sl = buildDetectSessionLogon(ggsn, template);
         sl.setLogfile(ggsn.getLogdir() + "/full/" + ggsn.getName() + ".log");

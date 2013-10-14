@@ -25,35 +25,14 @@ import java.util.*;
 public class FullDeactivate {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	private static Map<String,TimerTask> taskMap = new HashMap<String,TimerTask>();
-    String hw[] = new String[]{
-            //"WUXGGSN01BHW"//,"WUXGGSN02BHW",
-            //"WUXGGSN03BHW","WUXGGSN04BHW",
-            //"WUXGGSN05BHW"
-    };
-    String ai[] = new String[]{
-            //"WUXGGSN01Ber","WUXGGSN02Ber","WUXGGSN03Ber","WUXGGSN04Ber",
-            //"WUXGGSN05Ber","WUXGGSN06Ber","WUXGGSN07Ber","WUXGGSN08Ber",
-            //"WUXGGSN09Ber","WUXGGSN10Ber",//
-            //"WUXGGSN11Ber"
-            //"WUXGGSN12Ber"//,
-            "WUXGGSN13Ber"//,"WUXGGSN14Ber","WUXGGSN15Ber","WUXGGSN16Ber"
-    };
+	private static Timer timer = new Timer();
+    String hw[] = new String[]{};
+    String ai[] = new String[]{};
 	public static Map getTaskMap(){
 		return taskMap;
 	}
     public FullDeactivate(){
 	    logger.info("new FullDeactivate instance");
-        //execute();
-	}
-	//@PostConstruct
-	//@Scheduled(cron = "${full_activate.scheduling}")
-	private void execute() {
-		List<String> ggsnNames = new LinkedList<String>();
-		ggsnNames.add("WUXGGSN13Ber");
-        FullDeactivateTask fdt = createTask(ggsnNames,"immediate");
-        logger.info("fdt.start()");
-        Timer timer = new Timer();
-        timer.schedule(fdt,0);
 	}
 	@GET
 	@Produces("text/plain")
@@ -74,13 +53,13 @@ public class FullDeactivate {
 			}
 			FullDeactivateTask fdt = createTask(ggsnNames,"immediate");
 			logger.info("start immediateExecute:"+ggsnNames);
-			Timer timer = new Timer();
 
 			GGSNTask gt = new GGSNTask();
 			gt.setId(fdt.getId());
 			gt.setStartTime(new Date());
 			gt.setGgsns(ggsnNames.toString());
 			gt.setType("立即执行");
+			gt.setIsValid("已执行");
 			new DaoManager().getGgsnTaskDao().insertTask(gt);
 
 			timer.schedule(fdt,0);
@@ -127,7 +106,7 @@ public class FullDeactivate {
 			new DaoManager().getGgsnTaskDao().insertTask(gt);
 			taskMap.put(gt.getId(),fdt);
 
-			new Timer().schedule(fdt,date);
+			timer.schedule(fdt,date);
 			logger.info("add timingExecute task success :"+timeStr+","+ggsnNames);
 		} catch (Exception e){
 			logger.error("",e);
@@ -169,7 +148,7 @@ public class FullDeactivate {
 			new DaoManager().getGgsnTaskDao().insertTask(gt);
 			taskMap.put(gt.getId(),fdt);
 
-			new Timer().scheduleAtFixedRate(fdt, date, interval*1000);
+			timer.scheduleAtFixedRate(fdt, date, interval*1000);
 			logger.info("add roundExecute task success :"+timeStr+","+ggsnNames+","+interval/60);
 		} catch (Exception e){
 			logger.error("",e);
@@ -187,6 +166,16 @@ public class FullDeactivate {
 			Parameter parameter = JSON.parseObject(p,Parameter.class);
 			String id = parameter.getId();
 			logger.info("deleteTask :"+id);
+			GGSNTask gt = new DaoManager().getGgsnTaskDao().getTaskById(id);
+			if(gt ==null){
+				logger.info("no that task or has executed:"+p);
+				return "no that task or has executed";
+			}
+
+			if(gt.getIsValid() !=null && gt.getIsValid().equals("已执行")){
+				logger.info("this task is already executed.");
+				return "this task is already executed.";
+			}
 			new DaoManager().getGgsnTaskDao().deleteTaskById(id);
 			TimerTask tt = taskMap.remove(id);
 			if(tt!=null){
@@ -215,8 +204,7 @@ public class FullDeactivate {
 				date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time);
 				if(date.compareTo(new Date()) < 0){
 					logger.info("time before now ,then delete this task");
-					deleteTask("{\"id\":\""+id+"\"}");
-					return "time before now ,then delete this task";
+					return deleteTask("{\"id\":\""+id+"\"}");
 				}
 			} catch (ParseException e) {
 				e.printStackTrace();
@@ -227,6 +215,10 @@ public class FullDeactivate {
 				logger.info("no that task or has executed:"+p);
 				return "no that task or has executed";
 			}
+			if(gt.getIsValid() !=null && gt.getIsValid().equals("已执行")){
+				logger.info("this timing task is already executed.");
+				return "this timing task is already executed.";
+			}
 			gt.setStartTime(date);
 
 			FullDeactivateTask tt = (FullDeactivateTask) taskMap.get(id);
@@ -234,7 +226,7 @@ public class FullDeactivate {
 			taskMap.put(id,newT);
 			tt.cancel();
 
-			new Timer().schedule(newT,date);
+			timer.schedule(newT,date);
 			new DaoManager().getGgsnTaskDao().updateTask(gt);
 			logger.info("updateTask success :"+id);
 		} catch (Exception e){
@@ -278,7 +270,7 @@ public class FullDeactivate {
 			taskMap.put(id,newT);
 			tt.cancel();
 
-			new Timer().scheduleAtFixedRate(newT,date,interval*1000);
+			timer.scheduleAtFixedRate(newT,date,interval*1000);
 			new DaoManager().getGgsnTaskDao().updateTask(gt);
 			logger.info("updateTask success :"+id);
 		} catch (Exception e){

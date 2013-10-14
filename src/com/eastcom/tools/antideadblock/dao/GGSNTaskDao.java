@@ -23,6 +23,11 @@ public class GGSNTaskDao extends HibernateDaoSupport {
 	public List<GGSNTask> findAll(){
 		return (List<GGSNTask>) getHibernateTemplate().find("from GGSNTask");
 	}
+	public void markExecuted(String id){
+		GGSNTask gt = (GGSNTask) getHibernateTemplate().get(GGSNTask.class,id);
+		gt.setIsValid("已执行");
+		updateTask(gt);
+	}
 	public void deleteTaskById(String id){
 		GGSNTask gt = (GGSNTask) getHibernateTemplate().get(GGSNTask.class,id);
 		if(gt==null){

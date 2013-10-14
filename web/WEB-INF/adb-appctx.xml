@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task.xsd"
+	default-autowire="byName">
+
+	<context:annotation-config />
+	<context:property-placeholder location="classpath:app.properties" />
+	<task:annotation-driven scheduler="scheduler" />
+	<task:scheduler id="scheduler" pool-size="10" />
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    <property name="hibernateProperties">
+        <props>
+            <prop key="hibernate.dialect">
+                org.hibernate.dialect.HSQLDialect
+            </prop>
+            <prop key="hibernate.connection.autocommit">true</prop>
+            <prop key="show_sql">true</prop>
+            <prop key="hibernate.connection.provider_class">
+                org.hibernate.connection.ProxoolConnectionProvider
+            </prop>
+            <prop key="hibernate.proxool.xml">proxool.xml</prop>
+            <prop key="hibernate.proxool.pool_alias">DBPool</prop>
+            <prop key="hibernate.format_sql">false</prop>
+            <prop key="hibernate.jdbc.batch_size">30</prop>
+            <prop key="hibernate.current_session_context_class">thread</prop> <!--jta,thread-->
+            <prop key="hibernate.generate_statistics">true</prop>
+        </props>
+    </property>
+        <property name="mappingResources">
+            <list>
+                <value>GGSN.hbm.xml</value>
+                <value>GGSNTask.hbm.xml</value>
+                <value>ExecuteLog.hbm.xml</value>
+                <value>GGSNPoolInfoDevice.hbm.xml</value>
+                <value>GGSNGroup.hbm.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ggsnDao" class="com.eastcom.tools.antideadblock.dao.GGSNDao">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+    <bean id="ggsnTaskDao" class="com.eastcom.tools.antideadblock.dao.GGSNTaskDao" init-method="empty">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+    <bean id="executeLogDao" class="com.eastcom.tools.antideadblock.dao.ExecuteLogDao" init-method="init">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+    <bean id="ggsnGroupDao" class="com.eastcom.tools.antideadblock.dao.GGSNGroupDao">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+    <bean id="oracleTxManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+	<bean class="com.eastcom.tools.antideadblock.AppConfig" />
+
+    <bean id="currentSession" class="com.eastcom.tools.antideadblock.full.CurrentSession">
+        <property name="ggsnInfoManager" ref="ggsnInfoManager"></property>
+    </bean>
+
+    <bean id="ggsnManagerTask" class="com.eastcom.tools.antideadblock.ggsn.GGSNManagerTask">
+        <property name="ggsnInfoManager" ref="ggsnInfoManager"></property>
+    </bean>
+
+	<bean id="cleanTaskDispatcher"
+		class="com.eastcom.tools.antideadblock.cleaner.MSISDNCleanTaskDispatcher"
+		init-method="start" destroy-method="stop">
+		<property name="msisdnReceiver" ref="msisdnReceiver" />
+		<property name="ggsnLocator" ref="ggsnLocator" />
+		<property name="cleanTaskSender" ref="cleanTaskSender" />
+		<property name="threadPoolSize" value="${clean_task_dispatcher.thread_pool_size}" />
+	</bean>
+
+	<bean id="cleanTaskWorker"
+		class="com.eastcom.tools.antideadblock.cleaner.MSISDNCleanTaskWorker"
+		init-method="start" destroy-method="stop">
+		<property name="cleanTaskReceiver" ref="cleanTaskReceiver" />
+		<property name="msisdnCleaner" ref="msisdnCleaner" />
+		<property name="threadPoolSize" value="${clean_task_worker.thread_pool_size}" />
+	</bean>
+
+    <bean id="daoManager" class="com.eastcom.tools.antideadblock.full.DaoManager">
+        <property name="executeLogDao" ref="executeLogDao"></property>
+        <property name="ggsnTaskDao" ref="ggsnTaskDao"></property>
+        <property name="ggsnDao" ref="ggsnDao"></property>
+    </bean>
+	<context:component-scan base-package="com.eastcom.tools.antideadblock" />
+
+</beans>

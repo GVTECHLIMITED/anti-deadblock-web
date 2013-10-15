@@ -98,6 +98,15 @@
         <property name="ggsnTaskDao" ref="ggsnTaskDao"></property>
         <property name="ggsnDao" ref="ggsnDao"></property>
     </bean>
+    <bean id="getPoolInfo" class="com.eastcom.tools.antideadblock.full.pool.GetPoolInfo" init-method="init">
+        <property name="strHost" value="${hosts}"></property>
+        <property name="user" value="${users}"></property>
+        <property name="password" value="${password}"></property>
+        <property name="separator" value="${separator}"></property>
+        <property name="remotePath" value="${poolFileRemotePath}"></property>
+        <property name="localPath" value="${poolFileLocalPath}"></property>
+        <property name="charset" value="${poolFileCharset}"></property>
+    </bean>
 	<context:component-scan base-package="com.eastcom.tools.antideadblock" />
 
 </beans>

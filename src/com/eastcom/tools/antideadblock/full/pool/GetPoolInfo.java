@@ -40,40 +40,49 @@ public class GetPoolInfo {
 	@Autowired
 	GGSNDao ggsnDao;
 	LinkedList<Host> hosts = new LinkedList<Host>();
+	LinkedList<String> formats = new LinkedList<String>();
+	Host host;
+	String strHost;
+	String user;
+	String password;
+	String separator;
 	String remotePath;
 	String localPath;
 	String charset;
-	LinkedList<String> formats = new LinkedList<String>();
-	Host host;
-
-	@Autowired
-	public GetPoolInfo(@Value("${hosts}")String strHost,@Value("${user}")String user,
-	                   @Value("${password}") String password,@Value("${separator}") String separator,
-	                   @Value("${poolFileRemotePath}")String rp,@Value("${poolFileLocalPath}")String lp,
-	                   @Value("${formats}")String strFormat,@Value("${poolFileCharset}") String charset){
-		logger.info(charset);
-		String strHosts[] = strHost.split(separator);
-		String strUser[] = user.split(separator);
-		String strPassword[] = password.split(separator);
-		for(int i=0;i<strHosts.length;i++){
-			Host objectHost = new Host();
-			objectHost.host = strHosts[i];
-			objectHost.user = strUser[i];
-			objectHost.password = strPassword[i];
-			hosts.add(objectHost);
+	public void init(){
+		logger.info(user+" "+password);
+		logger.info(charset+" "+separator+" "+remotePath+" "+localPath+" "+separator);
+		try{
+			String strHosts[] = strHost.split(separator);
+			String strUser[] = user.split(separator);
+			String strPassword[] = password.split(separator);
+			for(int i=0;i<strHosts.length;i++){
+				Host objectHost = new Host();
+				objectHost.host = strHosts[i];
+				objectHost.user = strUser[i];
+				objectHost.password = strPassword[i];
+				hosts.add(objectHost);
+			}
+		} catch (Exception e){
+			logger.error("",e);
 		}
 		logger.info(hosts.toString());
-		this.remotePath = rp;
-		this.localPath = lp;
-		this.charset = charset;
-		for(String str:strFormat.split(separator)){
-			formats.add(str);
+
+		execute();
+	}
+	private LinkedList<String> getPoolFilesName(){
+		LinkedList<String> names = new LinkedList<String>();
+		List<GGSNGroup> ggsnGroups = ggsnGroupDao.findAll();
+		for(GGSNGroup group:ggsnGroups){
+			names.add(group.getId());
 		}
-		logger.info("formats = "+formats);
+		return names;
 	}
 	@Scheduled(cron = "${getPoolInfo.scheduling}")
 	//@PostConstruct
 	public void execute(){
+		formats = getPoolFilesName();
+		logger.info("formats = "+formats);
 		List<String> files = getConfigFile();
 		List<String> list = downloadFile(files);
 		handFile(list);
@@ -161,6 +170,87 @@ public class GetPoolInfo {
 		logger.info("pools:"+pools);
 		return pools;
 	}
+
+	public LinkedList<Host> getHosts() {
+		return hosts;
+	}
+
+	public void setHosts(LinkedList<Host> hosts) {
+		this.hosts = hosts;
+	}
+
+	public LinkedList<String> getFormats() {
+		return formats;
+	}
+
+	public void setFormats(LinkedList<String> formats) {
+		this.formats = formats;
+	}
+
+	public Host getHost() {
+		return host;
+	}
+
+	public void setHost(Host host) {
+		this.host = host;
+	}
+
+	public String getStrHost() {
+		return strHost;
+	}
+
+	public void setStrHost(String strHost) {
+		this.strHost = strHost;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getSeparator() {
+		return separator;
+	}
+
+	public void setSeparator(String separator) {
+		this.separator = separator;
+	}
+
+	public String getRemotePath() {
+		return remotePath;
+	}
+
+	public void setRemotePath(String remotePath) {
+		this.remotePath = remotePath;
+	}
+
+	public String getLocalPath() {
+		return localPath;
+	}
+
+	public void setLocalPath(String localPath) {
+		this.localPath = localPath;
+	}
+
+	public String getCharset() {
+		return charset;
+	}
+
+	public void setCharset(String charset) {
+		this.charset = charset;
+	}
+
 	class Host{
 		String host;
 		String user;

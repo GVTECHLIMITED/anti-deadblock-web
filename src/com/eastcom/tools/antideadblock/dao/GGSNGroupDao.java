@@ -3,6 +3,8 @@ package com.eastcom.tools.antideadblock.dao;
 import com.eastcom.tools.antideadblock.dao.data.GGSNGroup;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: rembau
@@ -22,6 +24,9 @@ public class GGSNGroupDao extends HibernateDaoSupport {
 			ggsnGroup.setName(id);
 			save(ggsnGroup);
 		}
+	}
+	public List<GGSNGroup> findAll(){
+		return getHibernateTemplate().find("from GGSNGroup ");
 	}
 	public void save(GGSNGroup ggsnGroup){
 		getHibernateTemplate().save(ggsnGroup);
